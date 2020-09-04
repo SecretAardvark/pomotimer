@@ -1,7 +1,7 @@
 //TODO:  Add different focus subjects to JSON and track how much time is spent on each.
 //TODO: CLI frontend for timer start/stop/tracking
-//TODO: Play system alert sound when timers alert.
-//BUG: Timer goroutine only runs once, never notifies when it's done after the first rd.
+//FIXED: elapsed always == 0?
+//BUG: You can pause the timer before starting it.
 package main
 
 import (
@@ -16,25 +16,32 @@ import (
 func main() {
 	//Take cli to start and stop the timer.
 	scanner := bufio.NewScanner(os.Stdin)
-	startTime := time.Now()
-	timer := time.NewTimer(10 * time.Second)
-	elapsed := time.Since(startTime)
 
 	var rdCount int
 	for scanner.Scan() {
+		startTime := time.Unix(100, 100)
+		elapsed := time.Since(startTime)
+		timer := time.NewTimer(10 * time.Second)
 		switch scanner.Text() {
 		case "start":
+			startTime = time.Now()
 			timer.Reset(10 * time.Second)
 			rdCount++
 			go start(*timer, startTime, elapsed, rdCount)
 		case "pause":
-			fmt.Println("paused")
-			timer.Stop()
-			fmt.Println(timer)
-			fmt.Println(elapsed)
+			if startTime == time.Unix(100, 100) {
+				fmt.Println("You didn't  start the timer!")
+			} else {
+				pause(timer, startTime, elapsed, rdCount)
+
+			}
 		case "unpause":
-			fmt.Println("unpaused")
-			timer.Reset(10*time.Second - elapsed)
+			if startTime == time.Unix(100, 100) {
+				fmt.Println("You didn't  start the timer!")
+			} else {
+				unpause(timer, startTime, elapsed, rdCount)
+			}
+
 		}
 	}
 }
@@ -44,7 +51,8 @@ func start(timer time.Timer, startTime time.Time, elapsed time.Duration, rdCount
 	fmt.Println("Starting timer")
 
 	<-timer.C
-	fmt.Println(elapsed)
+	fmt.Println(time.Since(startTime))
+	//Play system alert sound when timers alert.
 	beeep.Notify("Timer", "Break Time!", "C:\\Users\\p\\Pictures\\fuck groupme\\lgbtq.jpg")
 	timer.Reset(10 * time.Second)
 	fmt.Println("Break Time!")
@@ -53,5 +61,18 @@ func start(timer time.Timer, startTime time.Time, elapsed time.Duration, rdCount
 	<-breakTimer.C
 	fmt.Println("Break is over")
 	fmt.Println(rdCount)
+	fmt.Println(time.Since(startTime))
 
+}
+func pause(timer *time.Timer, startTime time.Time, elapsed time.Duration, rdCount int) {
+	fmt.Println("paused")
+	timer.Stop()
+	fmt.Printf("%v elapsed, %v remaining", time.Since(startTime),
+		(10*time.Second - time.Since(startTime)))
+}
+
+func unpause(timer *time.Timer, startTime time.Time, elapsed time.Duration, rdCount int) {
+	fmt.Println("unpaused")
+	fmt.Printf("%v time remaining", (10*time.Second - time.Since(startTime)))
+	timer.Reset(10*time.Second - time.Since(startTime))
 }
