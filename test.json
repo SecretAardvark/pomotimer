@@ -1,0 +1,91 @@
+[
+ {
+  "Subject": "",
+  "Today": {
+   "Date": 0,
+   "Rdcount": 1
+  },
+  "Sessions": [
+   {
+    "Date": 0,
+    "Rdcount": 1
+   }
+  ]
+ },
+ {
+  "Subject": "something",
+  "Today": {
+   "Date": 0,
+   "Rdcount": 0
+  },
+  "Sessions": null
+ },
+ {
+  "Subject": "anotherThing",
+  "Today": {
+   "Date": 0,
+   "Rdcount": 0
+  },
+  "Sessions": null
+ },
+ {
+  "Subject": "notindb",
+  "Today": {
+   "Date": 0,
+   "Rdcount": 1
+  },
+  "Sessions": [
+   {
+    "Date": 0,
+    "Rdcount": 1
+   }
+  ]
+ },
+ {
+  "Subject": "notindb",
+  "Today": {
+   "Date": 0,
+   "Rdcount": 1
+  },
+  "Sessions": [
+   {
+    "Date": 0,
+    "Rdcount": 1
+   }
+  ]
+ },
+ {
+  "Subject": "thingtostudy",
+  "Today": {
+   "Date": 0,
+   "Rdcount": 0
+  },
+  "Sessions": null
+ },
+ {
+  "Subject": "thingstostudy",
+  "Today": {
+   "Date": 0,
+   "Rdcount": 1
+  },
+  "Sessions": [
+   {
+    "Date": 0,
+    "Rdcount": 1
+   }
+  ]
+ },
+ {
+  "Subject": "",
+  "Today": {
+   "Date": 0,
+   "Rdcount": 1
+  },
+  "Sessions": [
+   {
+    "Date": 0,
+    "Rdcount": 1
+   }
+  ]
+ }
+]
