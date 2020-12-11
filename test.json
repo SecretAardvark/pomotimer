@@ -2,88 +2,67 @@
  {
   "Subject": "",
   "Today": {
-   "Date": 0,
-   "Rdcount": 1
+   "Date": "0001-01-01T00:00:00Z",
+   "Rdcount": 0
   },
-  "Sessions": [
-   {
-    "Date": 0,
-    "Rdcount": 1
-   }
-  ]
+  "Sessions": null
  },
  {
   "Subject": "something",
   "Today": {
-   "Date": 0,
-   "Rdcount": 0
-  },
-  "Sessions": null
- },
- {
-  "Subject": "anotherThing",
-  "Today": {
-   "Date": 0,
-   "Rdcount": 0
-  },
-  "Sessions": null
- },
- {
-  "Subject": "notindb",
-  "Today": {
-   "Date": 0,
+   "Date": "2020-12-10T12:05:53.4176629-08:00",
    "Rdcount": 1
   },
   "Sessions": [
    {
-    "Date": 0,
+    "Date": "2020-12-10T12:05:53.4176629-08:00",
     "Rdcount": 1
    }
   ]
  },
  {
-  "Subject": "notindb",
+  "Subject": "newthing",
   "Today": {
-   "Date": 0,
-   "Rdcount": 1
-  },
-  "Sessions": [
-   {
-    "Date": 0,
-    "Rdcount": 1
-   }
-  ]
- },
- {
-  "Subject": "thingtostudy",
-  "Today": {
-   "Date": 0,
+   "Date": "0001-01-01T00:00:00Z",
    "Rdcount": 0
   },
   "Sessions": null
  },
  {
-  "Subject": "thingstostudy",
+  "Subject": "newthing",
   "Today": {
-   "Date": 0,
+   "Date": "2020-12-10T12:22:02.3998737-08:00",
    "Rdcount": 1
   },
   "Sessions": [
    {
-    "Date": 0,
+    "Date": "2020-12-10T12:22:02.3998737-08:00",
     "Rdcount": 1
    }
   ]
  },
  {
-  "Subject": "",
+  "Subject": "newthing",
   "Today": {
-   "Date": 0,
+   "Date": "2020-12-10T12:24:53.5185582-08:00",
    "Rdcount": 1
   },
   "Sessions": [
    {
-    "Date": 0,
+    "Date": "2020-12-10T12:24:53.5185582-08:00",
+    "Rdcount": 1
+   }
+  ]
+ },
+ {
+  "Subject": "newthing",
+  "Today": {
+   "Date": "2020-12-10T20:30:05.9324964Z",
+   "Rdcount": 1
+  },
+  "Sessions": [
+   {
+    "Date": "2020-12-10T20:30:05.9324964Z",
     "Rdcount": 1
    }
   ]

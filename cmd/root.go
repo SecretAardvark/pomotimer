@@ -1,18 +1,3 @@
-/*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
 package cmd
 
 import (
@@ -34,17 +19,29 @@ var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
-	Use:   "cobratimer",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+	Use:   "pomotimer",
+	Short: "Pomotimer is a productivity tracker that uses the pomodoro method.",
+	Long: `Pomotimer is a productivity tracker that uses the pomodoro method, a 
+	time management methodology where you work for 25 minutes followed by a 5 minute
+	break. 
+	
+	Usage examples: 
+	
+	Start command: Starts a pomodoro timer. Subject and timer interval can be set with 
+	-s and -i flags.
+		-pomotimer start -s thingToDo
+		
+	Add command: Adds a focus topic to the database. Requires the -s flag. 
+		pomotimer add -s thingToDo
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
+	Delete command: Removes a topic from the datagbase. Requires the -s flag. 
+		pomotimer delete -s thingToDo
+	
+	Show command: Shows how much time you've spent on a given subject. Show will 
+	display data for one topic if given the -s flag, defaulting to showing the whole 
+	database. 
+		pomotimer show -s thingToDo
+	`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.
@@ -58,16 +55,9 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
-
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.cobratimer.yaml)")
 	rootCmd.PersistentFlags().StringVarP(&Subject, "subject", "s", "", "The topic you wish to focus on.")
 	rootCmd.PersistentFlags().IntVarP(&Interval, "interval", "i", 10, "The focus interval for the timer.")
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
