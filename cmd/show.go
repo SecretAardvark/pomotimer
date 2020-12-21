@@ -45,11 +45,11 @@ to quickly create a Cobra application.`,
 		defer jsonFile.Close()
 
 		bytes, _ := ioutil.ReadAll(jsonFile)
-		json.Unmarshal(bytes, &tasklist)
+		json.Unmarshal(bytes, &Tasklist)
 		if Subject == "" {
-			fmt.Println(tasklist)
+			fmt.Println(Tasklist)
 		}
-		for _, s := range tasklist {
+		for _, s := range Tasklist {
 			if s.Subject == Subject {
 				fmt.Println(s)
 			}

@@ -10,9 +10,9 @@ type Session struct {
 
 //Task is a subject you wish to focus on.
 type Task struct {
-	Subject  string
-	Today    Session
-	Sessions []Session
+	Subject  string    `json:"Subject"`
+	Today    Session   `json:"Today"`
+	Sessions []Session `json:"Sessions"`
 }
 
 //Tasklist is the master list of all your focus topics.

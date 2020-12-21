@@ -1,16 +1,13 @@
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
+	"pomotimer/db"
 	"pomotimer/tasks"
 
 	"github.com/spf13/cobra"
 )
-
-var tasklist tasks.Tasklist
 
 // addCmd represents the add command
 var addCmd = &cobra.Command{
@@ -23,19 +20,9 @@ var addCmd = &cobra.Command{
 	 	pomotimer add -s something
 	  	pomotimer add --subject "anotherThing"`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("add called")
-		jsonFile, err := os.Open("test.json")
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println("Opened tasks.json")
-		defer jsonFile.Close()
-
-		byteValue, _ := ioutil.ReadAll(jsonFile)
-
-		json.Unmarshal(byteValue, &tasklist)
+		jsonDB := db.OpenDB(Tasklist)
 		fmt.Println("Adding task to the db.")
-		for _, task := range tasklist {
+		for _, task := range jsonDB {
 			if Subject == task.Subject {
 				fmt.Println("This task already exists.")
 				os.Exit(1)
@@ -45,11 +32,8 @@ var addCmd = &cobra.Command{
 		task := tasks.Task{
 			Subject: Subject,
 		}
-		tasklist = append(tasklist, task)
 
-		file, _ := json.MarshalIndent(tasklist, "", " ")
-		_ = ioutil.WriteFile("test.json", file, 0644)
-		fmt.Println(tasklist) //Print here for testing.
+		db.WriteDB(jsonDB, task)
 	},
 }
 

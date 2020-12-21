@@ -1,13 +1,10 @@
-//TODO: Fix the bufio scanner loop so you can 'start' a second round.
-//BUG: On quit, Start command adds a duplicate entry to the db instead of overwriting an already existing one.
 package cmd
 
 import (
 	"bufio"
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
+	"pomotimer/db"
 	"pomotimer/tasks"
 	"pomotimer/timer"
 	"time"
@@ -54,9 +51,15 @@ var startCmd = &cobra.Command{
 		timerStarted = true
 		elapsed = 0 * time.Second
 		currentTask.Today.Rdcount++
-		go timer.Start(pause, Interval, elapsed, startTime, Subject)
+		go timer.Start(pause, Interval, elapsed, startTime, currentTask.Subject)
 		for scanner.Scan() {
 			switch scanner.Text() {
+			case "start":
+				startTime = time.Now()
+				timerStarted = true
+				elapsed = 0 * time.Second
+				currentTask.Today.Rdcount++
+				go timer.Start(pause, Interval, elapsed, startTime, currentTask.Subject)
 			case "pause":
 				if timerStarted == true && elapsed == 0*time.Second {
 					pause <- struct{}{}
@@ -71,31 +74,22 @@ var startCmd = &cobra.Command{
 				}
 			case "quit":
 				fmt.Println("See you next time!")
-				jsonFile, err := os.Open("test.json")
-				if err != nil {
-					fmt.Println("Couldn't open the JSON file.")
-				}
-				byteValue, _ := ioutil.ReadAll(jsonFile)
-				json.Unmarshal(byteValue, &tasklist)
-				defer jsonFile.Close()
+				jsonDB := db.OpenDB(tasklist)
 
-				for _, t := range tasklist {
+				for _, t := range jsonDB {
 					if currentTask.Subject == t.Subject {
+						fmt.Println("found a task")
 						t.Sessions = append(t.Sessions, currentTask.Today)
 						t.Today = currentTask.Today
 						t.Today.Date = time.Now().Local().UTC()
-						file, _ := json.MarshalIndent(tasklist, "", " ")
-						_ = ioutil.WriteFile("test.json", file, 0644)
-						os.Exit(1)
+						db.CloseDB(jsonDB)
 					}
+
 				}
 
 				currentTask.Sessions = append(currentTask.Sessions, currentTask.Today)
-				tasklist = append(tasklist, currentTask)
-				file, _ := json.MarshalIndent(tasklist, "", " ")
-				_ = ioutil.WriteFile("test.json", file, 0644)
-				os.Exit(1)
-
+				tasklist = append(jsonDB, currentTask)
+				db.CloseDB(jsonDB)
 			}
 		}
 

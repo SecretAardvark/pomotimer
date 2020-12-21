@@ -14,7 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-//TODO: Session struct does not display todays date properly.
+//BUG: On quit, Start command doesn't write to the db.
 package main
 
 import "pomotimer/cmd"

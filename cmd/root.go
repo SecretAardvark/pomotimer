@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 	"os"
+	"pomotimer/tasks"
 
 	"github.com/spf13/cobra"
 
@@ -15,6 +16,10 @@ var Interval int
 
 //Subject is the topic you wish to focus on.
 var Subject string
+
+//Tasklist is the master list of your topics.
+var Tasklist []tasks.Task
+
 var cfgFile string
 
 // rootCmd represents the base command when called without any subcommands

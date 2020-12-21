@@ -1,13 +1,8 @@
-//TODO: Make command usage uniform.
-//		The delete command works as is but the usage is inconsistent with the other
-//		commands. Delete takes an Arg for subject and Add command uses a flag.
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"os"
+	"pomotimer/db"
 	"pomotimer/tasks"
 
 	"github.com/spf13/cobra"
@@ -26,41 +21,25 @@ to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		var tasklist tasks.Tasklist
 
-		jsonfile, err := os.Open("test.Json")
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Println("Opened tasks.json")
-		defer jsonfile.Close()
+		jsonDB := db.OpenDB(tasklist)
 
-		byteValue, _ := ioutil.ReadAll(jsonfile)
-		json.Unmarshal(byteValue, &tasklist)
+		if Subject != "" {
+			for i, t := range jsonDB {
+				if t.Subject == Subject {
+					fmt.Printf("Deleting task %v from the db\n", t.Subject)
+					a := jsonDB[:i]
+					b := jsonDB[i+1:]
+					jsonDB = append(a, b...)
 
-		keys := make([]string, len(os.Args))
-
-		i := 0
-		for k := range os.Args {
-			keys[i] = os.Args[k]
-			i++
-		}
-		fmt.Println(keys)
-
-		for _, v := range keys {
-			for i, task := range tasklist {
-				if v == task.Subject {
-					fmt.Printf("Deleting %v from the db\n", v)
-					a := tasklist[:i]
-					b := tasklist[i+1:]
-					tasklist = append(a, b...)
-
+					db.CloseDB(jsonDB)
+					fmt.Println(tasklist) //Print tasklist here for testing.
+					fmt.Println(jsonDB)
 				}
+				i++
 			}
-			i++
-		}
-		file, _ := json.MarshalIndent(tasklist, "", " ")
-		_ = ioutil.WriteFile("test.json", file, 0644)
-		fmt.Println(tasklist) //Print tasklist here for testing.
 
+		}
+		fmt.Println("Please specify a subject to delete.")
 	},
 }
 
